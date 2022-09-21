@@ -2,7 +2,7 @@ import { useMutation } from 'react-query';
 import axios from 'axios';
 
 // Json-server URL
-const BASE_URL = process.env.BASE_URL || "https://json-api-test-react.herokuapp.com";
+const BASE_URL = process.env.BASE_URL || "http://localhost:8000";
 
 export const getCall = (route) => axios.get(BASE_URL + route);
 
