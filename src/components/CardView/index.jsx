@@ -13,7 +13,7 @@ import { usePost } from "./../../ApiServices.js";
 import { useEffect } from 'react';
 
 export default function CardView(props) {
-  const { mutate: addItemToCart, data, isSuccess } = usePost("http://localhost:8000/cart");
+  const { mutate: addItemToCart, data, isSuccess } = usePost("/cart");
 
   const addCartItem = (e) => {
     e.preventDefault();

@@ -19,8 +19,8 @@ export default function Cart() {
   const { mutate: deleteItemFromCart, data, error, isSuccess } = useDelete();
 
   const deleteCartItem = (id) => {
-    deleteItemFromCart("http://localhost:8000/cart/" + id);
-    console.log("http://localhost:8000/cart/" + id)
+    deleteItemFromCart("/cart/" + id);
+    console.log("cart/" + id)
   };
 
   useEffect(() => {

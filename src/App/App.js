@@ -18,8 +18,8 @@ function App() {
   const [, setProductList] = useRecoilState(products);
   const [, setCartList] = useRecoilState(cart);
 
-  const { mutate: getProducts, data: productData, error: productError } = useGet("http://localhost:8000/products");
-  const { mutate: getCart, data: cartdata, error: cartError } = useGet("http://localhost:8000/cart");
+  const { mutate: getProducts, data: productData, error: productError } = useGet("/products");
+  const { mutate: getCart, data: cartdata, error: cartError } = useGet("/cart");
 
   useEffect(() => {
     getProducts();
