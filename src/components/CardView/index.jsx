@@ -8,8 +8,31 @@ import Chip from '@mui/material/Chip';
 import Typography from '@mui/material/Typography';
 import DoneAllIcon from '@mui/icons-material/DoneAll';
 import { Link } from 'react-router-dom';
+import Button from '@mui/material/Button';
+import { usePost } from "./../../ApiServices.js";
+import { useEffect } from 'react';
 
 export default function CardView(props) {
+  const { mutate: addItemToCart, data, isSuccess } = usePost("http://localhost:8000/cart");
+
+  const addCartItem = (e) => {
+    e.preventDefault();
+
+    let itemObjString = JSON.stringify(props.item);
+    let itemObj = JSON.parse(itemObjString);
+    itemObj["quantity"] = 1;
+    console.log(itemObj);
+    addItemToCart(itemObj);
+  };
+
+
+  useEffect(() => {
+    if (isSuccess instanceof Error) {
+      alert("Added to cart Successfully");
+    }
+  }, [isSuccess]);
+
+
   return (
     <Card style={{ border: '1px solid black', margin: "48px", borderRadius: 0 }} sx={{ maxWidth: 345 }}>
       <CardMedia
@@ -69,9 +92,9 @@ export default function CardView(props) {
             <Link
               className="col-6 d-flex flex-row align-items-center justify-content-center w-50 p-2"
               style={{ border: '1px solid black', borderRadius: 0, textDecoration: "none" }} to={"/item/" + props.item.productId} >BUY</Link>
-            <Link
+            <Button
               className="col-6 d-flex flex-row align-items-center justify-content-center w-50 p-2"
-              style={{ border: '1px solid black', borderRadius: 0, textDecoration: "none" }} to="/" >ADD TO CART</Link>
+              style={{ border: '1px solid black', borderRadius: 0, textDecoration: "none" }} onClick={addCartItem} >ADD TO CART</Button>
           </div>
         </div>
       </CardActions>

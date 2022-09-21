@@ -6,13 +6,40 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import { useRecoilValue } from 'recoil';
+import { useRecoilValue, useRecoilState } from 'recoil';
 import { cart } from '../../../atoms';
 import { products } from './../../../atoms';
+import Button from '@mui/material/Button';
+import { useDelete } from "../../../ApiServices";
+import { useEffect } from 'react';
 
 export default function Cart() {
 
-  const rows = useRecoilValue(cart);
+  const [rows, setRows] = useRecoilState(cart);
+  const { mutate: deleteItemFromCart, data, error, isSuccess } = useDelete();
+
+  const deleteCartItem = (id) => {
+    deleteItemFromCart("http://localhost:8000/cart/" + id);
+    console.log("http://localhost:8000/cart/" + id)
+  };
+
+  useEffect(() => {
+    if (error instanceof Error) {
+      console.log(error);
+    }
+  }, [error]);
+
+  useEffect(() => {
+    if (isSuccess) {
+      alert("Removed Item");
+    }
+  }, [isSuccess]);
+
+  useEffect(() => {
+    if (data) {
+      setRows(rows?.filter(item => item.productId === data?.id))
+    }
+  }, [data]);
 
   return (
     <TableContainer component={Paper}>
@@ -33,12 +60,12 @@ export default function Cart() {
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
             >
               <TableCell component="th" scope="row">
-                x
+                <Button onClick={() => deleteCartItem(row.productId)}>&#10006;</Button>
               </TableCell>
               <TableCell align="right">{row.name}</TableCell>
               <TableCell align="right">{row.price}</TableCell>
               <TableCell align="right">{row.quantity}</TableCell>
-              <TableCell align="right">{row.total}</TableCell>
+              <TableCell align="right">{toString(row.quantity * parseInt(row.price))}</TableCell>
             </TableRow>
           ))}
         </TableBody>
