@@ -38,6 +38,4 @@
     "sellerName": "RetailNet",
     "isNewProduct": true
   }
-  // Similarly, you have to add minimum 10 products with the same fields.
-  //you can use image from public directory or external-links
 ]
